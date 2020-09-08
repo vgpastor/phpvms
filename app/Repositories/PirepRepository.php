@@ -7,9 +7,6 @@ use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\User;
 
-/**
- * Class PirepRepository
- */
 class PirepRepository extends Repository
 {
     protected $fieldSearchable = [

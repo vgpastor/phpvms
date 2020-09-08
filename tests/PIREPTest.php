@@ -21,6 +21,7 @@ use App\Services\FlightService;
 use App\Services\PirepService;
 use App\Services\UserService;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification;
 
 class PIREPTest extends TestCase
@@ -315,6 +316,48 @@ class PIREPTest extends TestCase
 
         // Make sure latest PIREP was updated
         $this->assertNotEquals($last_pirep->id, $latest_pirep->id);
+    }
+
+    /**
+     * Create multiple accepted PIREPs in an order, and then retrieve the aircraft history
+     * and also check that they're returned, in order
+     */
+    public function testAircraftGetPirepHistory()
+    {
+        /** @var User $user */
+        $user = factory(User::class)->create([
+            'flights'     => 0,
+            'flight_time' => 0,
+            'rank_id'     => 1,
+        ]);
+
+        $pirep_id_order = [];
+        for ($i = 1; $i <= 2; $i++) {
+            /** @var Pirep $pirep */
+            $pirep = factory(Pirep::class)->create([
+                'airline_id'  => $user->airline_id,
+                'aircraft_id' => 1,
+                'user_id'     => $user->id,
+                'created_at'  => Carbon::now()->subHours($i), // subtract $i hours
+            ]);
+
+            $pirep_id_order[] = $pirep->id;
+
+            $this->pirepSvc->create($pirep);
+            $this->pirepSvc->accept($pirep);
+        }
+
+        $aircraft = Aircraft::find(1);
+
+        /** @var AircraftService $aircraftSvc */
+        $aircraftSvc = app(AircraftService::class);
+
+        /** @var Collection $pirep_history */
+        $pirep_history = $aircraftSvc->getFlightHistory($aircraft, 5);
+        for ($i = 0; $i < $pirep_history->count(); $i++) {
+            $pirep = $pirep_history->get($i);
+            $this->assertEquals($pirep_id_order[$i], $pirep->id);
+        }
     }
 
     /**

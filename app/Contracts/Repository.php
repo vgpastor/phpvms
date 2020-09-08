@@ -6,7 +6,8 @@ use Illuminate\Validation\Validator;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 /**
- * @mixin \Prettus\Repository\Eloquent\BaseRepository
+ * @mixin Model
+ * @mixin BaseRepository
  */
 abstract class Repository extends BaseRepository
 {
