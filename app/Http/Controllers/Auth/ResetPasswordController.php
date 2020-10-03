@@ -13,7 +13,7 @@ class ResetPasswordController extends Controller
 {
     use ResetsPasswords;
 
-    protected $redirectTo = '/login';
+    protected $redirectTo = '/logout';
 
     /**
      * @param Request $request
