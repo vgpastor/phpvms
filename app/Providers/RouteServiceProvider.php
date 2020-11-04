@@ -510,6 +510,9 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('news', 'NewsController@index');
                 Route::get('status', 'StatusController@status');
                 Route::get('version', 'StatusController@status');
+
+                Route::get('airports/find', 'AirportController@find');
+
             });
 
             /*
@@ -526,6 +529,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('airports/{id}/distance/{to}', 'AirportController@distance');
 
                 Route::get('fleet', 'FleetController@index');
+                Route::get('fleet/airport/{id}', 'FleetController@get_airport');
                 Route::get('fleet/aircraft/{id}', 'FleetController@get_aircraft');
 
                 Route::get('flights', 'FlightController@index');
