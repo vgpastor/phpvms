@@ -33,12 +33,16 @@ class AirportRepository extends Repository implements CacheableInterface
     {
         $retval = [];
         $where = [];
-
+        
         if ($only_hubs) {
             $where['hub'] = 1;
-        }
-        if(!is_null($icao)){
+            if(!is_null($icao)){
+                $where['icao'] = $icao;
+            }
+        }elseif(!is_null($icao)){
             $where['icao'] = $icao;
+        }else{
+            $where['icao'] = '';
         }
 
         $items = $this->orderBy('icao', 'asc')->findWhere($where);
