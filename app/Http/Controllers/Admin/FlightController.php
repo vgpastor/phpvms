@@ -156,7 +156,7 @@ class FlightController extends Controller
             'flight_fields' => $this->flightFieldRepo->all(),
             'airlines'      => $this->airlineRepo->selectBoxList(),
             'airports'      => $this->airportRepo->selectBoxList(true, false),
-            'alt_airports'  => $this->airportRepo->selectBoxList(true,false),
+            'alt_airports'  => $this->airportRepo->selectBoxList(true, false),
             'flight_types'  => FlightType::select(true),
         ]);
     }
@@ -229,9 +229,9 @@ class FlightController extends Controller
             'days'            => $flight->days,
             'flight_fields'   => $this->flightFieldRepo->all(),
             'airlines'        => $this->airlineRepo->selectBoxList(),
-            'airports_dpt'        => $this->airportRepo->selectBoxList(false,false,$flight->dpt_airport_id),
-            'airports_arr'        => $this->airportRepo->selectBoxList(false,false,$flight->arr_airport_id),
-            'alt_airports'    => $this->airportRepo->selectBoxList(true,false,$flight->alt_airport_id),
+            'airports_dpt'    => $this->airportRepo->selectBoxList(false, false, $flight->dpt_airport_id),
+            'airports_arr'    => $this->airportRepo->selectBoxList(false, false, $flight->arr_airport_id),
+            'alt_airports'    => $this->airportRepo->selectBoxList(true, false, $flight->alt_airport_id),
             'avail_fares'     => $this->getAvailFares($flight),
             'avail_subfleets' => $this->getAvailSubfleets($flight),
             'flight_types'    => FlightType::select(true),
